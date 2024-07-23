@@ -9,3 +9,41 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  products Product[]
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  price       Decimal
+  description String
+  category    Category @relation(fields: [category_id], references: [id])
+  category_id Int
+
+  attributes ProductAttribute[]
+}
+
+model Attribute {
+  id   Int     @id @default(autoincrement())
+  name String
+  sale Boolean @default(false)
+
+  productAttributes ProductAttribute[]
+}
+
+model ProductAttribute {
+  id           Int       @id @default(autoincrement())
+  value        String
+  product      Product   @relation(fields: [product_id], references: [id])
+  product_id   Int
+  attribute    Attribute @relation(fields: [attribute_id], references: [id])
+  attribute_id Int
+
+  //Ensure that the product-attribute combination is unique
+  @@unique([product_id, attribute_id])
+}
