@@ -25,25 +25,22 @@ model Product {
   category    Category @relation(fields: [category_id], references: [id])
   category_id Int
 
-  attributes ProductAttribute[]
+  attributes Attribute[]
 }
 
 model Attribute {
-  id   Int     @id @default(autoincrement())
-  name String
-  sale Boolean @default(false)
+  id         Int     @id @default(autoincrement())
+  name       String
+  sale       Boolean @default(false)
+  product    Product @relation(fields: [product_id], references: [id])
+  product_id Int
 
-  productAttributes ProductAttribute[]
+  values AttributeValue[]
 }
 
-model ProductAttribute {
+model AttributeValue {
   id           Int       @id @default(autoincrement())
   value        String
-  product      Product   @relation(fields: [product_id], references: [id])
-  product_id   Int
   attribute    Attribute @relation(fields: [attribute_id], references: [id])
   attribute_id Int
-
-  //Ensure that the product-attribute combination is unique
-  @@unique([product_id, attribute_id])
 }
