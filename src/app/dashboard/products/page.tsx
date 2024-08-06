@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import Card from "@/app/components/Card";
+import SearchInput from "@/app/components/SearchInput";
 
 export interface ProductCardType {
   id: number;
@@ -19,32 +20,8 @@ const fetchData = async () => {
   return [categories, products, attributes, attributeValues];
 };
 
-// const fetchCategories = async () => {
-//   let categories = await prisma.category.findMany();
-//   return cateogries;
-// };
-
-// const fetchProducts = async (): Promise<ProductCardType[]> => {
-//   let products = await prisma.product.findMany();
-//   return products;
-// };
-
-// const fetchAttributes = async () => {
-//   let attributes = await prisma.attribute.findMany();
-//   return attributes;
-// };
-
-// const fetchProductAttributes = async () => {
-//   let productAttributes = await prisma.productAttribute.findMany();
-//   return productAttributes;
-// };
-
 export default async function Home() {
   const [categories, products, attributes, attributeValues] = await fetchData();
-  // const categories = await fetchCategories();
-  // const products = await fetchProducts();
-  // const attributes = await fetchAttributes();
-  // const productAttributes = await fetchProductAttributes();
   console.log(categories, products, attributes, attributeValues);
 
   return (
@@ -52,6 +29,10 @@ export default async function Home() {
       <h1 className="text-2xl font-bold underline">
         Hello, this is products page!
       </h1>
+
+      <div className="flex flex-col gap-10 items-center p-6">
+        <SearchInput />
+      </div>
 
       <div className="py-3 px-36 mt-10 flex flex-wrap justify-center">
         {products.map((product) => (
